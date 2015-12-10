@@ -1,0 +1,39 @@
+body{
+	overflow:hidden;
+}
+.card{
+  background-color: #fff;
+}
+.selected{
+  color: #fff;
+}
+
+#myApp {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.btn.warning, .warning {
+  background-color:#F8A546;
+}
+
+a.btn.round.count {
+  width: 70px;
+  margin: 5px auto;
+}
+.card header{
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.grid .column {
+  border-right: 1px solid #ccc;
+}
+.grid .column:last-child{
+  border:none;
+}
+li.list-item {
+  border-bottom: 1px solid #ccc;
+}

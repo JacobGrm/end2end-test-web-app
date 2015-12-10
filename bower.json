@@ -1,0 +1,34 @@
+{
+  "_id": "pm-minimal-app",
+  "name": "reference-webapp",
+  "version": "0.0.1",
+  "authors": [
+    "Jonnie Spratley <jonnie.spratley@ge.com>"
+  ],
+  "files": [
+    "./dist/**/*.*"
+  ],
+  "main": "index.min.html",
+  "thumbnail": "thumbnail.png",
+  "description": "This is a reference app for Predix Mobile.",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Chart.js": "chartjs#~1.0.2",
+    "font-awesome": "~4.4.0",
+    "px-mobile-ui": "https://github.build.ge.com/predix-mobile/px-mobile-ui.git#master"
+  },
+  "devDependencies": {
+    "web-component-tester": "~3.4.0"
+  }
+}

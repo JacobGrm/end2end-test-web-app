@@ -1,0 +1,530 @@
+mixin tile(name)
+  //- attributes == {class: "btn"}
+  .item.md.padding-10.color-white.text-center.background-color(class=name)
+    i.fa.fa-5x(class='fa-' + name)
+  
+doctype html
+html.pxm(lang='en', manifest='../dist/app.manifest')
+  head
+    title Predix Mobile | Field Service
+    meta(charset='utf-8')
+    meta(name='description', content='px-mobile usage docs')
+    meta(name="viewport" content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
+    //build:inlinejs
+    script(src='../../webcomponentsjs/webcomponents-lite.js')
+    // endbuild
+    
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js')
+    link(rel='import' href='../../polymer/polymer.html')
+    link(rel='import' href='../dist/px-mobile.min.html')
+    style.
+      body{
+        overflow:hidden;
+      }
+    script(type='text/javascript').
+      console.log('px-mobile starter template')
+  body(unresolved).background-color-alt
+  
+    //Use application component
+    pm-issue-app#myApp
+  
+    //Application Component
+    dom-module#pm-issue-app
+      //Styles
+      style.
+        :host {
+          display: block;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+        :host .item-title {
+          font-weight: bold !important;
+        }
+        :host .details h4{
+          margin-bottom: 10px !important;
+          border-bottom: 1px solid #111;
+          text-transform: uppercase;
+        }
+        :host .details dl {
+          margin: 0;
+          padding: 0;
+        }
+        :host .details dt {
+          font-weight: bold;
+          font-size: smaller;
+          text-transform: capitalize;
+          
+        }
+        :host .details dd {
+          color: #999;
+          margin: 0;
+          padding: 0;
+          font-size: smaller;
+        }
+        :host .card{
+          background-color: #fff;
+        }
+        :host .selected{
+          color: #fff;
+        }
+        :host pxm-app#myApp {
+          position: fixed;
+          top: 0px;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+        :host .btn.warning, .warning {
+          background-color:#F8A546;
+        }
+        :host a.btn.round.count {
+          width: 65px;
+          margin: 5px auto;
+        }
+        :host .card header{
+          text-transform: uppercase;
+          font-weight: bold;
+        } 
+        :host .grid .column {
+          border-right: 1px solid #ccc;
+        }
+        :host .grid .column:last-child{
+          border:none;
+        }
+        
+        :host .list-item {
+          border-bottom: 1px solid #ccc !important;
+        }
+        :host .item-title{
+          font-weight: bold;
+        }
+        :host h5{
+          font-size: 1.2rem;
+          border-bottom: 1px solid #ccc;
+          margin: 5px 0;
+        }
+        :host .loading p {
+            font-size: 2rem;
+        }
+        :host .loading.show-loading{
+          transform: translate(0, 0);
+        }
+        :host .loading {
+          transform: translate(0, -125%);
+          position: fixed;
+          height: 100%;
+          background: rgba(34, 34, 34, 0.75);
+          top: 55px;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 999;
+          color: #fff;
+          text-align: center;
+          padding: 50% 0;
+        }
+        :host .modal{
+          position: fixed !important;
+        }
+      //View
+      template
+        //TODO - Loading Screen 
+        div#loading.loading
+          p Loading...
+          
+        // TODO: Database
+        pxm-db#myDb(last-response="handleLastResponse" base-url='/predixgo')
+        
+          // TODO: Collections
+          pxm-collection#issueCollection(params='{"startkey": "resource-issue-1", "endkey": "resource-issue-z", "include_docs": true}', last-response="{{issues}}")
+        
+            // TODO: Models
+            pxm-model#issueModel(last-response='selectedIssue', auto)
+        
+        //TODO - Navbar
+        pxm-navbar#appNavbar.background-color-dark(title='{{title}}', view-container='appViews', sidebar-container='appSidebar')
+        
+        //TODO - Sidebar
+        pxm-sidebar#appSidebar()
+          
+        //TODO - App Views
+        pxm-views#appViews.background-color-alt(selected='0' auto-router)
+        
+          //TODO - Dashboard View
+          pxm-view#dashboardView.background-color-alt(route='/dashboard', title='Dashboard', icon='fa fa-lg fa-dashboard', main)
+            .container.full-width.gutters
+              .col-3
+                .padding-5.margin-5
+                  img.round.img-responsive(src='images/avatar.png')
+              .col-9
+                .padding-5.color-white
+                  h4.no-margin.font-normal Welcome,
+                    span {{currentUser.username}}
+                  p.no-margin Today is 15, Oct. 2015
+            .container.full-width.gutters-sm
+              .col-12
+                
+                pxm-card#issuesCards(title='Assigned to you')
+                  .grid.gutters-sm
+                    .critical.column.text-center
+                      a#criticalIssuesBtn.issues-btn.btn.round.negative.large.count(on-click='gotoIssues') 2
+                      span.title.color-alt Critical
+                    .urgent.column.text-center
+                      a#urgentIssuesBtn.issues-btn.btn.round.warning.large.count(on-click='gotoIssues') 4
+                      span.title.color-alt Urgent
+                    .normal.column.text-center
+                      a#normalIssuesBtn.btn.round.primary.large.count(on-click='gotoIssues') 21
+                      span.title.color-alt Normal
+                
+                pxm-card#chartCard(title='History')
+                  // NOTE: Usage in application
+                  canvas#myChart(width='450', height='250')
+                        
+          
+          //TODO - Issues View
+          pxm-view#issuesView.background-color-white(route='/issues', title='Issues', icon='fa fa-lg fa-list')
+            pxm-list#issuesList(data='{{issues}}')
+          
+          //TODO - Issue Details View
+          pxm-view#issueDetailsView(route='/issues/:id', title='Issue Details', icon='fa fa-lg fa-edit') 
+            .padding-10.details
+              pxm-card#issueDetailsCard(title$="{{selectedIssue.title}}", icon="toolbox")
+                .container.full-width.gutters-sm
+                  .col-3
+                    img.img-responsive(src='images/issue-normal.png')
+                    dl
+                      dt Severity:
+                      dd {{selectedIssue.severity}}
+                  .col-9
+                    dl
+                      dt Issue #:
+                      dd {{selectedIssue._id}}
+                    .container
+                      .col-4
+                        dl
+                          dt Customer:
+                          dd {{selectedIssue.customer}}
+                          dt Issue Type:
+                          dd {{selectedIssue.type}}
+                      .col-4
+                        dl
+                          dt My Role:
+                          dd Owner
+                          dt Assignee:
+                          dd {{selectedIssue.assignee}}
+                      .col-4
+                        dl
+                          dt Updated:
+                          dd {{selectedIssue.updated_at}}
+                          dt Status:
+                          dd {{selectedIssue.status}}
+                  .col-12
+                    h5 Description
+                    p.color-alt {{selectedIssue.body}}
+                  .col-12
+                    h5 Comments
+                    ul
+                      template(is='dom-repeat' items='{{selectedIssue.data.comments}}')
+                        li
+                          p.color-alt {{item.body}}
+                  .col-12
+                    h5 Team Members
+                    .container
+                      .col-6
+                        dt Reported By:
+                        dd {{selectedIssue.data.reportedby}}
+                        dt Owner:
+                        dd {{selectedIssue.data.owner}}
+                      .col-6
+                        dl
+                          dt Assigned To:
+                          dd {{selectedIssue.data.assignedto}}
+                          dt Followers:
+                          dd {{selectedIssue.data.followers}}
+                .grid.gutters-sm
+                  button#deleteBtn.negative.block(on-click='deleteIssue') Delete
+                  button#commentBtn.primary.block(onclick='commentView.toggle()') Comment
+                  button#assignBtn.primary.block Assign
+                
+          //About View
+          pxm-view#aboutView(route='/about', title='About', icon='fa fa-lg fa-info')
+            .container.full-width.gutters
+              .col-12
+                p Code
+                
+          //TODO - Comment
+          pxm-view#commentView(route='/comment', title='Add a Comment', icon='fa fa-lg fa-comment', modal)
+            .container.full-width.gutters-sm
+              .col-12.padding-10
+                form#commentIssueForm
+                  label Comment text
+                  textarea#commentText(name='body' rows='10', placeholder='Type comment here...', required)
+            footer
+              .grid.gutters-sm
+                button#cancelCommentBtn.block Cancel
+                button#submitCommentBtn.block.primary Submit
+              
+          //TODO - Assign
+          pxm-view#assignView(route='/assign', title='Assign Issue', icon='fa fa-lg fa-users', modal)
+            .container.full-width.gutters
+              .col-12.details.padding-10
+                form#assignIssueForm
+                  dl
+                    dt Currently Assigned To:
+                    dd {{selectedIssue.assignee}}
+                  label Find Assignee
+                  input#searchAssignee(type='text', list='searchResults', autofocus, required, autocomplete)
+                  datalist#searchResults
+                    template(is='dom-repeat', items='{{users}}')
+                      option(value='{{item.doc.name}}')
+            footer
+              .grid.gutters-sm
+                button#cancelAssignBtn.block Cancel
+                button#submitAssignBtn.block.primary Assign
+      //Logic
+      script(type='text/javascript').
+        document.addEventListener('WebComponentsReady', function(){
+          Polymer({
+            is: 'pm-issue-app',
+            behaviors: [ pxMobile.behaviors.AppElement ],
+            listeners: {
+              //'loginBtn.click': 'handleLogin',
+              'assignBtn.click': '_handleGetUsers',
+              'cancelCommentBtn.click': '_handleCancelComment',
+              'submitCommentBtn.click': '_handleSubmitComment',
+              //'commentIssueForm.onsubmit': '_handleSubmitComment',
+              'cancelAssignBtn.click': '_handleAssignCancel',
+            //  'assignIssueForm.onsubmit': '_handleAssignSubmit',
+              'submitAssignBtn.click': '_handleAssignSubmit',
+              'issuesList.pxm:list:select': '_handleSelectIssue',
+              'appViews.pxm:view:change': '_handleViewChange'
+            },
+            properties: {
+              
+              
+              //The title of the application.
+              title: {
+                type: String, value: 'Field Service'
+              }, 
+              
+              
+              //The current sessions user.
+              currentUser: {
+                type: Object,
+                value: {
+                  username: 'Tom Edison'
+                }
+              },
+              //The list of issues assigned to the ucrrent user.
+              issues: {
+                type: Array, value: []
+              },
+              
+              //The list of users to assign an issue to.
+              users: {
+                type: Array, value: []
+              },
+              
+              //The selected issue.
+              selectedIssue: {
+                type: Object, 
+                value: {}
+              }
+            },
+            attached: function() {
+              var self = this;
+              this.debounce('buildChart', function() {
+                self._buildChart()
+              }, 550);
+            },
+            getIssues: function(){
+              var self = this;
+              var issues = [];
+              self.showLoading();
+              return self.$.myDb.allDocs({
+                startkey: 'resource-issue-1', 
+                endkey: 'resource-issue-z', 
+                include_docs: true
+              }).then(function(resp){
+                self.session.data = resp.data;
+                resp.data.rows.forEach(function(row){
+                  if(row.doc.dataType && row.doc.dataType === 'entity'){
+                    row.doc.subtitle = 'Status: '+row.doc.status;
+                    row.doc.image = 'images/issue-' + row.doc.severity + '.png';
+                    issues.push(row.doc);
+                  }
+                });
+                self.hideLoading();
+                self.issues = issues;
+                return resp;
+              });
+            },
+            deleteIssue: function(id){
+              
+            },
+            handleLogin: function(e){
+               this.$.appViews.next();
+               return false;
+            },
+            _buildChart: function(){
+              var data = {
+                labels: ["January", "February", "March", "April", "May"],
+                datasets: [
+                  {
+                      label: "Critical",
+                      fillColor: "rgba(219,40,57,0.5)",
+                      strokeColor: "rgba(219,40,57,0.8)",
+                      highlightFill: "rgba(219,40,57,0.75)",
+                      highlightStroke: "rgba(219,40,57,1)",
+                      data: [65, 59, 80, 81, 56]
+                  },
+                  {
+                      label: "Urgent",
+                      fillColor: "rgba(253,151,52,0.5)",
+                      strokeColor: "rgba(253,151,52),0.8)",
+                      highlightFill: "rgba(253,151,52,0.75)",
+                      highlightStroke: "rgba(253,151,52,1)",
+                      data: [28, 48, 40, 19, 86]
+                  }
+                ]
+              };
+              var ctx = this.$.myChart.getContext("2d");
+              this.$.myChart.width = this.$.myChart.parentElement.offsetWidth - 25;
+              var myNewChart = new Chart(ctx).Bar(data);
+            },
+            
+            
+            _handleSelectIssue: function(e){
+              var model = e.detail.model.item;
+              console.warn('handleSelectIssue', e, model);
+              this.selectedIssue = model;
+              this.$.appViews.goto('issueDetailsView');
+            },
+            
+            _handleViewChange: function(e){
+              var self = this;
+              console.warn('INFO', 'viewChanged', e.detail.id);
+              switch(e.detail.id){
+                case 'issueDetailsView':
+                 self.refreshSelectedIssue();
+                break;
+                case 'issuesView':
+                 self.getIssues();
+                break;
+                case 'assignView':
+                 
+                break;
+              }
+            },
+            
+            _handleCancelComment: function(e){
+              this.$.commentView.toggle();
+            },
+            
+            _handleGetUsers: function(){
+              var self = this;
+              
+              self.$.assignView.toggle(); 
+              self.showLoading();
+              this.$.myDb.allDocs({
+                startkey: 'resource-user-a', 
+                endkey: 'resource-user-z', 
+                include_docs: true
+              }).then(function(resp){
+                self.users = resp.data.rows;
+                self.hideLoading();
+                
+              });
+            },
+            gotoIssues: function(){
+              var self = this;
+              console.warn('Goto issues');
+              this.debounce('gotoIssues', function(){
+                self.getIssues().then(function(){
+                  self.$.appViews.gotoView('issuesView');
+                });
+              }, 100);
+            },
+            
+            filterIssues: function(){
+              var self = this;
+              self.session.issues = {};
+              self.session.issues.all = issues;
+              self.session.issues.critical = issues.filter(function(issue){
+                return issue.severity === 'critical';
+              });
+              self.session.issues.urgent = issues.filter(function(issue){
+                return issue.severity === 'urgent';
+              });
+              self.session.issues.normal = issues.filter(function(issue){
+                return issue.severity === 'normal';
+              });
+            },
+            
+            showLoading: function(){
+              this.$.loading.addClass('show-loading');
+            },
+            hideLoading: function(){
+              this.$.loading.removeClass('show-loading');
+            },
+            
+            _handleAssignSubmit: function(e){
+              console.warn(e);
+              e.preventDefault();
+              var self = this;
+              this.selectedIssue.assignee = this.$.searchAssignee.value;
+              this.$.myDb.put(this.selectedIssue).then(function(){
+                self.$.searchAssignee.value = '';
+                self.$.assignView.toggle();
+                self.refreshSelectedIssue();
+              }).catch(function(err){
+                console.error('Error', err);
+                self.showError('There was a problem assigning the issue.');
+              });
+              return false;
+            },
+            _handleSubmitComment: function(e){
+              console.warn(e);
+              e.preventDefault();
+              var self = this;
+              var commentInput = self.$.commentText;
+              var comment = {
+                body: commentInput.value
+              };
+              this.selectedIssue.data = this.selectedIssue.data || {};
+              this.selectedIssue.data.comments = this.selectedIssue.data.comments || [];
+              this.selectedIssue.data.comments.push(comment);
+              
+              
+              console.warn('Adding comment to', this.selectedIssue);
+              this.$.myDb.put(this.selectedIssue).then(function(){
+                commentInput.value = '';  
+                self.$.commentView.toggle();
+                self.refreshSelectedIssue();
+              });
+              return false;
+            },
+            
+            _handleAssignCancel: function(e){
+              this.$.assignView.toggle();
+            },
+            
+            showError: function(msg){
+              alert(msg);
+            },
+            
+            refreshSelectedIssue: function(){
+              var self = this;
+              this.$.myDb.get(this.selectedIssue._id).then(function(resp){
+                self.selectedIssue = resp.data;
+                console.warn('Updated selected issue', resp);
+              }).catch(function(err){
+                console.error('Error', err);
+                self.showError('There was a problem assigning the issue.');
+              });
+            }
+          });
+        });

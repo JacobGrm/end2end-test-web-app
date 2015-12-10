@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="pxm">
+	<head>
+		<meta charset="utf-8">
+		<title>px-mobile-reference-webapp unit tests</title>
+		<meta charset="UTF-8">
+
+		<!-- build:js js/vendor.js
+		<script src="../../bower_components/es6-shim/es6-shim.js"></script>
+		<script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../../bower_components/Chart.js/Chart.js"></script>
+		<script src="../../bower_components/fetch/fetch.js"></script>
+		<script src="../../bower_components/fastclick/lib/fastclick.js"></script>
+
+		endbuild -->
+		<script src="../../dist/js/vendor.js"></script>
+		<script src="../../bower_components/web-component-tester/browser.js"></script>
+
+		<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+		<link rel="import" href="../../bower_components/px-mobile/dist/px-mobile.min.html"/>
+
+		<!-- TODO: Custom Element -->
+		<link rel="import" href="../../app/elements/pm-issue-app.html"/>
+		<link rel="stylesheet" href="../../app/styles/main.css">
+	</head>
+	<body>
+
+		<div class="container full-width">
+			<div class="col-12">
+				<!-- TODO: Custom application element usage -->
+				<pm-issue-app id="fixture" base-url="/predixgo" title="My App"></pm-issue-app>
+			</div>
+		</div>
+
+
+
+		<script type="text/javascript">
+			suite('<pm-issue-app>', function() {
+				var db = null,
+				TEST_IDS = [],
+				testObj = {
+					_id: 'test-' + Date.now(),
+					title: 'Test Doc'
+				};
+				var element = document.getElementById('fixture');
+				test('renders', function() {
+					assert.ok(element);
+				});
+
+				suite('Properties', function() {
+					test('has title', function() {
+						assert.ok(element.title);
+					});
+					test('has baseUrl', function() {
+						assert.ok(element.baseUrl);
+					});
+					test('has session', function() {
+						assert.ok(element.session);
+					});
+					test('has currentUser', function() {
+						assert.ok(element.currentUser);
+					});
+					test('has users', function() {
+						assert.ok(element.users);
+					});
+					test('has issues', function() {
+						assert.ok(element.issues);
+					});
+					test('has selectedIssue', function() {
+						assert.ok(element.selectedIssue);
+					});
+				});
+
+
+			});
+		</script>
+	</body>
+</html>

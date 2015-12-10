@@ -1,0 +1,84 @@
+{
+  "_id": "px-mobile-reference-webapp",
+  "name": "px-mobile-reference-webapp",
+  "version": "0.0.1",
+  "description": "A mininal app for Predix Mobile",
+  "main": "index.min.html",
+  "config": {
+    "dist": "./dist",
+    "src": "./app",
+    "port": 8787,
+    "livereload": 35724,
+    "dirs": [
+      "./app",
+      "./test",
+      "."
+    ],
+    "routes": [],
+    "proxy": {
+      "forward": {
+        "/livereload": "http://localhost:35724",
+        "/predixgo-live": "http://nginx-sync-gateway-admin.grc-apps.svc.ice.ge.com",
+        "/predixgo": "http://localhost:4985",
+        "/default": "http://localhost:4985"
+      }
+    },
+    "moduleType": [
+      "globals"
+    ]
+  },
+  "files": [
+    "./dist/**/*.*"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "scripts": {
+    "build": "npm run clean && mkdir -p dist && npm run copy:spec && npm run copy:jasmine && npm run copy:scripts && npm run copy:elements && npm run copy:assets && npm run copy:fonts && npm run build:html && npm run vulcanize",
+    "build:html": "usemin $npm_package_config_src/index.html -d $npm_package_config_dist > $npm_package_config_dist/index.html",
+    "vulcanize": "vulcanize --inline-scripts --inline-css $npm_package_config_dist/index.html > $npm_package_config_dist/index.min.html",
+    "copy:elements": "cp -r $npm_package_config_src/elements $npm_package_config_dist/elements",
+    "copy:spec": "cp -r $npm_package_config_src/spec $npm_package_config_dist/spec",
+    "copy:scripts": "cp -r $npm_package_config_src/scripts $npm_package_config_dist/scripts",
+    "copy:jasmine": "cp -r $npm_package_config_src/jasmine-1.2.0 $npm_package_config_dist/jasmine-1.2.0",
+    "copy:assets": "cp -r $npm_package_config_src/assets $npm_package_config_dist/assets",
+    "copy:fonts": "mkdir -p $npm_package_config_dist/fonts && cp -r bower_components/px-mobile-ui/fonts $npm_package_config_dist/",
+    "clean": "rimraf $npm_package_config_dist",
+    "publish": "pg publish",
+    "open": "open http://localhost:$npm_package_config_port",
+    "start": "node server.js",
+    "poststart": "npm run open",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "px",
+    "px-mobile"
+  ],
+  "author": "Jonnie Spratley",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "fs-extra": "^0.23.1",
+    "glob": "^5.0.14",
+    "json-proxy": "^0.9.1",
+    "log4js": "^0.6.26",
+    "serve-static": "^1.10.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.0.3",
+    "cssmin": "^0.4.3",
+    "express": "^4.13.3",
+    "livereload": "^0.4.0",
+    "ngmin": "^0.5.0",
+    "requirejs": "^2.1.20",
+    "rimraf": "^2.4.3",
+    "serve-static": "^1.10.0",
+    "usemin-cli": "0.0.7",
+    "vulcanize": "^1.14.0"
+  }
+}

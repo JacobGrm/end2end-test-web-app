@@ -1,0 +1,7 @@
+{
+  "name": "e2e-app-jacob",
+  "version": "0.0.2",
+  "main": "index.html",
+  "src-folder": "./dist/",
+  "output-folder": "./dist-zip/" 
+}

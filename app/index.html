@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Jasmine Spec Runner</title>
+    <!-- jasmine source-->
+    <link rel="shortcut icon" type="image/png" href="jasmine-1.2.0/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="jasmine-1.2.0/jasmine.css">
+    <script type="text/javascript" src="jasmine-1.2.0/jasmine.js"></script>
+    <script type="text/javascript" src="jasmine-1.2.0/jasmine-html.js"></script>
+    <!-- include spec files here...-->
+
+    <script type="text/javascript" src="spec/config.js"></script>
+    <script type="text/javascript" src="spec/helper.js"></script>
+
+    <!-- TESTS -->
+    <script type="text/javascript" src="scripts/createDocument.js"></script>
+    <script type="text/javascript" src="scripts/userSettings.js"></script>
+    <script type="text/javascript" src="scripts/connectivity.js"></script>
+    <script type="text/javascript" src="scripts/loggingService.js"></script>
+    <script type="text/javascript" src="scripts/notifyService.js"></script>
+
+    <!-- Keep tests at the buttom. It shuts down local Couchbase -->
+    <script type="text/javascript" src="scripts/dataAccessHighLevel.js"></script>
+    <script type="text/javascript" src="scripts/userInformationService.js"></script>
+
+  </head>
+  <script type="text/javascript">
+
+    var htmlReporter = new jasmine.HtmlReporter();
+    function runJasmineTests() {
+        var button = document.getElementById('clickButt');
+        button.style.display = 'none';
+        var jasmineEnv = jasmine.getEnv();
+        jasmineEnv.updateInterval = 1000;
+//        var htmlReporter = new jasmine.HtmlReporter();
+        jasmineEnv.addReporter(htmlReporter);
+        jasmineEnv.specFilter = function (spec) {
+            return htmlReporter.specFilter(spec);
+        };
+        function execJasmine() {
+            jasmineEnv.execute();
+        }
+        execJasmine();
+    }
+  </script>
+  <body>
+    <button id="clickButt" type="button" onclick="runJasmineTests()">Run REST API Tests</button>
+    <div id="stage" style="display:none;"></div>
+  </body>
+</html>

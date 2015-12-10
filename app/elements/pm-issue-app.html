@@ -1,0 +1,718 @@
+<!--Application Component-->
+<dom-module id="pm-issue-app">
+	<style>
+		:host {
+			display: block;
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+		}
+
+		:host .item-title {
+			font-weight: bold !important;
+		}
+
+		:host .details h4 {
+			margin-bottom: 10px !important;
+			border-bottom: 1px solid #111;
+			text-transform: uppercase;
+		}
+
+		:host .details dl {
+			margin: 0;
+			padding: 0;
+		}
+
+		:host .details dt {
+			font-weight: bold;
+			font-size: smaller;
+			text-transform: capitalize;
+		}
+
+		:host .details dd {
+			color: #999;
+			margin: 0;
+			padding: 0;
+			font-size: smaller;
+		}
+
+		:host .card {
+			background-color: #fff;
+		}
+
+		:host .selected {
+			color: #fff;
+		}
+
+		:host pxm-app#myApp {
+			position: fixed;
+			top: 0px;
+			bottom: 0;
+			left: 0;
+			right: 0;
+		}
+
+		:host .btn.warning,
+		.warning {
+			background-color: #F8A546;
+		}
+
+		:host a.btn.round.count {
+			width: 60px;
+			margin: 5px auto;
+		}
+
+		:host .card header {
+			text-transform: uppercase;
+			font-weight: bold;
+		}
+
+		:host .container .column {
+			border-right: 1px solid #ccc;
+		}
+
+		:host .container .column:last-child {
+			border: none;
+		}
+
+		:host .list-item {
+			border-bottom: 1px solid #ccc !important;
+		}
+
+		:host .item-title {
+			font-weight: bold;
+		}
+
+		:host h5 {
+			font-size: 1.2rem;
+			border-bottom: 1px solid #ccc;
+			margin: 5px 0;
+		}
+
+		:host .loading p {
+			font-size: 2rem;
+		}
+
+		:host .loading.show-loading {
+			transform: translate(0, 0);
+			-webkit-transform: translate(0, 0);
+		}
+
+		:host .loading {
+			transform: translate(0, -125%);
+			-webkit-transform: translate(0, -125%);
+			position: fixed;
+			height: 100%;
+			background: rgba(34, 34, 34, 0.75);
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			z-index: 999;
+			color: #fff;
+			text-align: center;
+			padding: 50% 0;
+		}
+
+		:host .modal {
+			position: fixed !important;
+		}
+
+		:host .modal.active {
+			position: fixed !important;
+			z-index: 500;
+		}
+
+		:host .color-normal {
+			color: #005CB9;
+		}
+
+		:host .color-critical {
+			color: #E32533;
+		}
+
+		:host .color-urgent {
+			color: #FF9821;
+		}
+	</style>
+	<template>
+
+		<div id="loading" class="loading hidden" onclick="myApp.hideLoading()">
+			<p>Loading...</p>
+		</div>
+
+		<!-- TODO: Database-->
+		<pxm-db id="myDb" last-response="handleLastResponse" base-url="{{baseUrl}}">
+
+			<!-- TODO: Collections-->
+			<pxm-collection id="issueCollection" last-response="{{issues}}">
+
+				<!-- TODO: Models-->
+				<pxm-model id="issueModel" last-response="selectedIssue" auto></pxm-model>
+				<pxm-model id="userModel" last-response="users" key="data-resource-users"></pxm-model>
+			</pxm-collection>
+		</pxm-db>
+
+		<!--TODO - Navbar
+
+		<pxm-navbar id="appNavbar" view-container="appViews" theme="dark"></pxm-navbar>
+		-->
+
+		<!--TODO - Sidebar
+		<pxm-sidebar id="appSidebar"></pxm-sidebar>
+		-->
+		<pxm-sidebar id="appSidebar"></pxm-sidebar>
+
+		<!--TODO - App Views-->
+		<pxm-views id="appViews" selected="0" auto-router class="background-color-alt" theme="dark">
+
+			<!--TODO - Dashboard View-->
+			<pxm-view id="dashboardView" title="Dashboard" icon="fa fa-lg fa-dashboard" class="background-color-alt" main="true">
+
+				<!-- TODO: Custom dashboard navar -->
+				<pxm-navbar view-container="appViews" sidebar-container="appSidebar" title="Dashboard"></pxm-navbar>
+
+				<div class="container full-width gutters">
+					<div class="col-12">
+						<div class="pull-left padding-5 margin-5">
+							<img src="../assets/avatar.png" class="round img-responsive avatar" style="width:60px;" />
+						</div>
+						<div class="padding-5 color-white">
+							<h4 class="no-margin font-normal">Welcome,
+								<span>{{currentUser.username}}</span>
+							</h4>
+							<p class="no-margin">Today is
+								<span>{{currentDate}}</span>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="container full-width gutters-sm">
+					<div class="col-12">
+						<pxm-card id="issuesCards" title="Assigned to you">
+							<div class="container">
+								<div class="col-4 critical column text-center">
+									<a id="criticalIssuesBtn" on-click="gotoIssues" class="issues-btn btn round negative large count display-block">{{filteredIssues.critical.length}}</a>
+									<span class="title color-alt">Critical</span>
+								</div>
+								<div class="col-4 urgent column text-center">
+									<a id="urgentIssuesBtn" on-click="gotoIssues" class="issues-btn btn round warning large count display-block">{{filteredIssues.urgent.length}}</a>
+									<span class="title color-alt">Urgent</span>
+								</div>
+								<div class="col-4 normal column text-center">
+									<a id="normalIssuesBtn" on-click="gotoIssues" class="btn round primary large count display-block">{{filteredIssues.normal.length}}</a>
+									<span class="title color-alt">Normal</span>
+								</div>
+							</div>
+						</pxm-card>
+						<pxm-card id="chartCard" title="History">
+							<canvas id="myChart" width="450" height="250"></canvas>
+						</pxm-card>
+					</div>
+				</div>
+			</pxm-view>
+
+			<!--TODO - Issues View-->
+			<pxm-view id="issuesView" route="/issues" title="Issues" icon="fa fa-lg fa-list" class="background-color-white">
+
+				<!-- TODO: Custom list navbar -->
+				<pxm-navbar view-container="appViews" title="Issues"></pxm-navbar>
+				<!--
+				<pxm-list id="issuesList" data="{{issues}}"></pxm-list>
+				-->
+				<section class="content">
+
+					<ul id="issuesList" class="table-view">
+						<template is="dom-repeat" items="{{issues}}">
+							<li>
+								<a href="" on-click="_handleSelectIssue">
+									<div class="media pull-left">
+										<i class$="{{item.severityClass}}"></i>
+									</div>
+									<span>{{item.title}}</span>
+									<p class="color-alt">
+										<small>{{item.subtitle}}</small>
+									</p>
+								</a>
+							</li>
+						</template>
+					</ul>
+				</section>
+			</pxm-view>
+
+			<!--TODO - Issue Details View-->
+			<pxm-view id="issueDetailsView" route="/issues/:id" title="Issue Details" icon="fa fa-lg fa-edit">
+				<pxm-navbar view-container="appViews" theme="dark" title="{{appViews.currentView.title}}"></pxm-navbar>
+				<div class="padding-10 details">
+					<pxm-card id="issueDetailsCard" title$="{{selectedIssue.title}}" icon="toolbox">
+						<div class="container full-width ">
+							<div class="col-3 text-center">
+								<i class$="{{selectedIssue.severityClass}}"></i>
+								<dl>
+									<dt>Severity:</dt>
+									<dd>{{selectedIssue.severity}}</dd>
+								</dl>
+							</div>
+							<div class="col-9">
+								<dl>
+									<dt>Issue #:</dt>
+									<dd>{{selectedIssue._id}}</dd>
+								</dl>
+								<div class="container">
+									<div class="col-4">
+										<dl>
+											<dt>Customer:</dt>
+											<dd>{{selectedIssue.customer}}</dd>
+											<dt>Issue Type:</dt>
+											<dd>{{selectedIssue.type}}</dd>
+										</dl>
+									</div>
+									<div class="col-4">
+										<dl>
+											<dt>My Role:</dt>
+											<dd>Owner</dd>
+											<dt>Assignee:</dt>
+											<dd>{{selectedIssue.assignee}}</dd>
+										</dl>
+									</div>
+									<div class="col-4">
+										<dl>
+											<dt>Updated:</dt>
+											<dd>{{selectedIssue.updated_at}}</dd>
+											<dt>Status:</dt>
+											<dd>{{selectedIssue.status}}</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+							<div class="col-12">
+								<h5>Description</h5>
+								<p class="color-alt">{{selectedIssue.body}}</p>
+							</div>
+
+							<!--div class="col-12">
+								<h5>Team Members</h5>
+								<div class="container">
+									<div class="col-6">
+										<dt>Reported By:</dt>
+										<dd>{{selectedIssue.data.reportedby}}</dd>
+										<dt>Owner:</dt>
+										<dd>{{selectedIssue.data.owner}}</dd>
+									</div>
+									<div class="col-6">
+										<dl>
+											<dt>Assigned To:</dt>
+											<dd>{{selectedIssue.data.assignedto}}</dd>
+											<dt>Followers:</dt>
+											<dd>{{selectedIssue.data.followers}}</dd>
+										</dl>
+									</div>
+								</div>
+							</div-->
+							<template is="dom-if" if="{{selectedIssue.data.comments}}">
+								<div class="col-12">
+									<h5>Comments</h5>
+									<ul>
+										<template is="dom-repeat" items="{{selectedIssue.data.comments}}">
+											<li>
+												<p class="color-alt">{{item.body}}</p>
+											</li>
+										</template>
+									</ul>
+								</div>
+							</template>
+						</div>
+						<br>
+						<div class="grid gutters-sm">
+							<button onclick="deleteIssueConfirm.toggle()" class="negative block">Delete</button>
+							<button id="commentBtn" onclick="commentView.toggle()" class="primary block">Comment</button>
+							<button id="assignBtn" class="primary block">Assign</button>
+						</div>
+
+						<!-- TODO: Delete confirmation -->
+						<pxm-alert id="deleteIssueConfirm" title="Confirm">
+							<p>Are you sure you want to delete this?</p>
+							<footer class="footer btn-group">
+								<button id="deleteBtn">Delete</button>
+								<button onclick="deleteIssueConfirm.toggle()">Cancel</button>
+							</footer>
+						</pxm-alert>
+
+					</pxm-card>
+				</div>
+			</pxm-view>
+
+			<!--About View-->
+			<pxm-view id="aboutView" route="/about" title="About" icon="fa fa-lg fa-info">
+				<div class="container full-width gutters">
+					<div class="col-12">
+						<p>Code</p>
+					</div>
+				</div>
+			</pxm-view>
+
+			<!--TODO - Comment-->
+			<pxm-view id="commentView" route="/comment" title="Add a Comment" icon="fa fa-lg fa-comment" dynamic-navbar modal theme="dark">
+				<div class="container full-width gutters-sm">
+					<div class="col-12 padding-10">
+						<form id="commentIssueForm">
+							<textarea id="commentText" name="body" rows="10" placeholder="Type comment here..." required></textarea>
+						</form>
+					</div>
+				</div>
+				<footer>
+					<div class="grid gutters-sm padding-5">
+						<button id="cancelCommentBtn" class="block">Cancel</button>
+						<button id="submitCommentBtn" class="block primary">Submit</button>
+					</div>
+				</footer>
+			</pxm-view>
+
+			<!--TODO - Assign-->
+			<pxm-view id="assignView" route="/assign" title="Assign Issue" icon="fa fa-lg fa-users" dynamic-navbar modal theme="dark">
+				<section>
+
+					<div class="container full-width gutters">
+						<div class="col-12 details padding-10">
+							<form id="assignIssueForm">
+								<dl>
+									<dt>Currently Assigned To:</dt>
+									<dd>{{selectedIssue.assignee}}</dd>
+								</dl>
+								<label>Find Assignee</label>
+								<input id="searchAssignee" type="text" list="searchResults" autofocus required autocomplete>
+								<datalist id="searchResults">
+									<template is="dom-repeat" items="{{users}}">
+										<option value="{{item.name}}"></option>
+									</template>
+								</datalist>
+								<div class="height-400 scroll-y">
+									<ul id="searchResultList" class="list">
+										<template is="dom-repeat" items="{{users}}">
+											<li>
+												<label class="checkbox list-item">
+													<input type="checkbox" name="user" value="{{item.id}}">
+													<div class="checkmark"></div>
+													<span>{{item.name}}</span>
+												</label>
+											</li>
+										</template>
+									</ul>
+								</div>
+
+							</form>
+						</div>
+					</div>
+					<footer>
+						<div class="grid gutters-sm padding-5">
+							<button id="cancelAssignBtn" class="block">Cancel</button>
+							<button id="submitAssignBtn" class="block primary">Assign</button>
+						</div>
+					</footer>
+				</section>
+			</pxm-view>
+		</pxm-views>
+	</template>
+	<!--Logic-->
+	<script type="text/javascript">
+		Polymer({
+			is: 'pm-issue-app',
+			behaviors: [pxMobile.behaviors.AppElement],
+			listeners: {
+				'deleteBtn.click': '_handleRemoveIssue',
+				'assignBtn.click': '_handleGetUsers',
+				'cancelCommentBtn.click': '_handleCancelComment',
+				'submitCommentBtn.click': '_handleSubmitComment',
+				'cancelAssignBtn.click': '_handleAssignCancel',
+				'submitAssignBtn.click': '_handleAssignSubmit',
+				'appViews.pxm:view:change': '_handleViewChange'
+			},
+			properties: {
+
+				//The title of the application.
+				title: {
+					type: String,
+					value: 'Field Service'
+				},
+
+				//The base url of the application
+				baseUrl: {
+					type: String,
+					value: '/predixgo'
+				},
+
+				//The current session
+				session: {
+					type: Object,
+					value: {}
+				},
+
+				//The current sessions user.
+				currentUser: {
+					type: Object,
+					value: {
+						username: 'Tom Edison'
+					}
+				},
+
+				//The list of issues assigned to the ucrrent user.
+				issues: {
+					type: Array,
+					value: []
+				},
+
+				//The list of users to assign an issue to.
+				users: {
+					type: Array,
+					value: []
+				},
+
+				//The selected issue.
+				selectedIssue: {
+					type: Object,
+					value: {}
+				},
+
+				//The filtered issues
+				filteredIssues: {
+					type: Object,
+					value: {
+						critical: [1],
+						urgent: [1],
+						normal: [1]
+					}
+				},
+
+				//The current date.
+				currentDate: {
+					type: String,
+					value: new Date().toDateString()
+				}
+			},
+
+			//Handle when component is attached.
+			attached: function() {
+				var self = this;
+				this.debounce('buildChart', function() {
+					self.getIssues().then(function(resp) {
+						console.log(resp);
+						self.filteredIssues = self.filterIssues(resp);
+						self._buildChart();
+					});
+
+				}, 550);
+			},
+
+			//Handle fetching the issues.
+			getIssues: function() {
+				var self = this;
+				var issues = [];
+				self.showLoading();
+				return self.$.myDb.instance.allDocs({
+					/*
+					startkey: 'resource-issue-1',
+					endkey: 'resource-issue-z',*/
+					include_docs: true
+				}).then(function(resp) {
+					self.session.data = resp.data;
+					resp.data.rows.forEach(function(row) {
+						if (row.doc.dataType && row.doc.dataType === 'entity') {
+							row.doc.severityClass = 'fa fa-exclamation-triangle fa-3x color-' + row.doc.severity
+							row.doc.subtitle = 'Status: ' + row.doc.status;
+							issues.push(row.doc);
+						}
+					});
+					self.hideLoading();
+					self.issues = issues;
+					return issues;
+				}).catch(function(err) {
+					console.error('Error', err);
+					self.showError('There was a problem fetching the issues.');
+					return err;
+				});
+			},
+
+			//Handle deleting an issue.
+			deleteIssue: function(id) {
+
+			},
+
+			//Handle login.
+			handleLogin: function(e) {
+				this.$.appViews.next();
+				return false;
+			},
+
+			//Handle navigating to the issues page.
+			gotoIssues: function() {
+				var self = this;
+				console.warn('Goto issues');
+				this.debounce('gotoIssues', function() {
+					self.$.appViews.goto('issuesView');
+				}, 50);
+			},
+
+			//Handle filtering out the issues.
+			filterIssues: function(issues) {
+				var self = this;
+				var _issues = {};
+				_issues.all = issues;
+				_issues.critical = issues.filter(function(issue) {
+					return issue.severity === 'critical';
+				});
+				_issues.urgent = issues.filter(function(issue) {
+					return issue.severity === 'urgent';
+				});
+				_issues.normal = issues.filter(function(issue) {
+					return issue.severity === 'normal';
+				});
+				return _issues;
+			},
+
+			showLoading: function() {
+				this.$.loading.addClass('loading');
+			},
+
+			hideLoading: function() {
+				this.$.loading.removeClass('loading');
+			},
+
+			showError: function(msg) {
+				alert(msg);
+				this.hideLoading();
+			},
+
+			//Handle refreshing the selected issue.
+			refreshSelectedIssue: function() {
+				var self = this;
+				this.$.myDb.instance.get(this.selectedIssue._id).then(function(resp) {
+					resp.data.severityClass = 'fa fa-exclamation-triangle fa-4x color-' + resp.data.severity
+					self.set('selectedIssue', resp.data);
+					console.warn('Updated selected issue', resp);
+				}).catch(function(err) {
+					console.error('Error', err);
+					self.showError('There was a problem assigning the issue.');
+				});
+			},
+
+			//Handle when the submit button is pressed on the assign view.
+			_handleAssignSubmit: function(e) {
+				console.warn(e);
+				e.preventDefault();
+				var self = this;
+				this.selectedIssue.assignee = this.$.searchAssignee.value;
+				this.$.myDb.instance.put(this.selectedIssue).then(function() {
+					self.$.searchAssignee.value = '';
+					self.$.assignView.toggle();
+					self.refreshSelectedIssue();
+				}).catch(function(err) {
+					console.error('Error', err);
+					self.showError('There was a problem assigning the issue.');
+				});
+				return false;
+			},
+
+			//Handle when the submit button is pressed on the comment view.
+			_handleSubmitComment: function(e) {
+				console.warn(e);
+				e.preventDefault();
+				var self = this;
+				var commentInput = self.$.commentText;
+				var comment = {
+					body: commentInput.value
+				};
+				this.selectedIssue.data = this.selectedIssue.data || {};
+				this.selectedIssue.data.comments = this.selectedIssue.data.comments || [];
+				this.selectedIssue.data.comments.push(comment);
+
+
+				console.warn('Adding comment to', this.selectedIssue);
+				this.$.myDb.instance.put(this.selectedIssue).then(function() {
+					commentInput.value = '';
+					self.$.commentView.toggle();
+					self.refreshSelectedIssue();
+				});
+				return false;
+			},
+
+			//Handle cancel button on assign view.
+			_handleAssignCancel: function(e) {
+				this.$.assignView.toggle();
+			},
+
+			//Handle prompting for user to remove issue
+			_handleRemoveIssue: function(e) {
+				//this.$.assignView.toggle();
+				console.log('remvoe issue', e);
+			},
+
+			//Handle building the chart on the dashboard.
+			_buildChart: function() {
+				var data = {
+					labels: ["January", "February", "March", "April", "May"],
+					datasets: [{
+						label: "Critical",
+						fillColor: "rgba(219,40,57,0.5)",
+						strokeColor: "rgba(219,40,57,0.8)",
+						highlightFill: "rgba(219,40,57,0.75)",
+						highlightStroke: "rgba(219,40,57,1)",
+						data: [65, 59, 80, 81, 56]
+					}, {
+						label: "Urgent",
+						fillColor: "rgba(253,151,52,0.5)",
+						strokeColor: "rgba(253,151,52),0.8)",
+						highlightFill: "rgba(253,151,52,0.75)",
+						highlightStroke: "rgba(253,151,52,1)",
+						data: [28, 48, 40, 19, 86]
+					}]
+				};
+				var ctx = this.$.myChart.getContext("2d");
+				this.$.myChart.width = this.$.myChart.parentElement.offsetWidth - 25;
+				var myNewChart = new Chart(ctx).Bar(data);
+			},
+
+			//Handle when an issue is selected.
+			_handleSelectIssue: function(e) {
+				e.preventDefault();
+				console.warn('handleSelectIssue', e);
+				var model = e.model.item;
+				this.selectedIssue = model;
+				this.$.appViews.goto('issueDetailsView');
+				return false;
+			},
+
+			//Handle when the view is changed.
+			_handleViewChange: function(e) {
+				var self = this;
+				console.warn('INFO', 'viewChanged', e.detail.id);
+				switch (e.detail.id) {
+					case 'issueDetailsView':
+						self.refreshSelectedIssue();
+						break;
+					case 'issuesView':
+						self.getIssues();
+						break;
+					case 'assignView':
+
+						break;
+				}
+			},
+
+			_handleCancelComment: function(e) {
+				this.$.commentView.toggle();
+			},
+
+			_handleGetUsers: function() {
+				var self = this;
+				self.$.assignView.toggle();
+				self.showLoading();
+				self.users = [];
+				self.$.userModel.fetch().then(function(resp) {
+					self.users = resp.data.data;
+				});
+			}
+		});
+	</script>
+</dom-module>

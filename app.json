@@ -1,0 +1,9 @@
+{
+    "name": "JacobApp",
+    "version": "3.0.0",
+    
+    "starter": "e2e-app-jacob",
+    "dependencies": {
+        "e2e-app-jacob": "0.0.2"
+     }
+}

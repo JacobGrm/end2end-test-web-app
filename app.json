@@ -1,9 +1,11 @@
 {
-    "name": "JacobApp",
-    "version": "3.0.0",
-    
-    "starter": "e2e-app-jacob",
+    "name": "FunctionalTestSuite",
+    "version": "1.0.0",
+    "starter": "e2e-app-test",
+    "offline": "offline-login",
     "dependencies": {
-        "e2e-app-jacob": "0.0.2"
+        "e2e-app-test": "0.0.1",
+        "replacement-e2e-app": "0.0.2",
+        "offline-login": "0.0.1"
      }
 }

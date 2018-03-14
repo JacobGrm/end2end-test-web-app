@@ -1,7 +1,7 @@
 {
-  "name": "e2e-app-jacob",
-  "version": "0.0.2",
+  "name": "e2e-app-test",
+  "version": "0.0.1",
   "main": "index.html",
   "src-folder": "./dist/",
-  "output-folder": "./dist-zip/" 
+  "output-folder": "./dist-zip/"
 }

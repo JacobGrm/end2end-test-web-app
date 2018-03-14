@@ -2,49 +2,258 @@
 <html>
   <head>
     <title>Jasmine Spec Runner</title>
-    <!-- jasmine source-->
-    <link rel="shortcut icon" type="image/png" href="jasmine-1.2.0/jasmine_favicon.png">
-    <link rel="stylesheet" type="text/css" href="jasmine-1.2.0/jasmine.css">
-    <script type="text/javascript" src="jasmine-1.2.0/jasmine.js"></script>
-    <script type="text/javascript" src="jasmine-1.2.0/jasmine-html.js"></script>
-    <!-- include spec files here...-->
+
+    <script type="text/javascript">
+            var WEB_PROTOCOL = "protocol_not_set";
+    </script>
 
     <script type="text/javascript" src="spec/config.js"></script>
+
+    <!-- jasmine source-->
+    <link rel="shortcut icon" type="image/png" href="jasmine-2.4.1/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="jasmine-2.4.1/jasmine.css">
+    <script type="text/javascript" src="jasmine-2.4.1/jasmine.js"></script>
+    <script type="text/javascript" src="jasmine-2.4.1/jasmine-html.js"></script>
+    <!--<script type="text/javascript" src="jasmine-2.4.1/boot.js"></script>-->
+    <script type="text/javascript" src="jasmine-2.4.1/custom_boot.js"></script>
     <script type="text/javascript" src="spec/helper.js"></script>
 
     <!-- TESTS -->
-    <script type="text/javascript" src="scripts/createDocument.js"></script>
-    <script type="text/javascript" src="scripts/userSettings.js"></script>
-    <script type="text/javascript" src="scripts/connectivity.js"></script>
-    <script type="text/javascript" src="scripts/loggingService.js"></script>
-    <script type="text/javascript" src="scripts/notifyService.js"></script>
 
-    <!-- Keep tests at the buttom. It shuts down local Couchbase -->
-    <script type="text/javascript" src="scripts/dataAccessHighLevel.js"></script>
-    <script type="text/javascript" src="scripts/userInformationService.js"></script>
+    <!--RUN SELECTED TESTS IN OFF-LINE MODE-->
+
+    <!--Tests-->
+    <!--<script type="text/javascript" src="scripts/createDocument_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/userSettings_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/connectivity_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/loggingService_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/dataAccessLowLevel_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/documentsResultSetFilters_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/startEndKeyLimits_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/predixConfiguration_view_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/versionService_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/concurentRequests_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/emailService_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/dbHighLevel_ext_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/queryingViews_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/commandToDocumentView_async.js"></script>-->
+
+
+	<!-- MEMORY STATEFUL SYSTEMS -->
+    <!--<script type="text/javascript" src="scripts/notifyService_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/documentChangedNotification_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/documentChangedNotificationExtention_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/localNotifications_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/localNotifications_callBack_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/windowService_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/windowServiceSpinnerSpecialChars_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/spinner_concurrent_calls.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/commandProcessor_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/commandProcessor_negative_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/loadInvalidAppWindowService_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/documentService_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/dataAccessTilde_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/localNotifications_script_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/addDocumentAttachment_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/dataAccessHighLevel_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/addDocumentMultipleAttachments_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/document_long_string_value_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/secureStorageService_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/predixConfiguration_fullTextSearch_view_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/bulkDocumentEdit_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/lowDiskSpaceNotification_async.js"></script>-->
+    <!--<script type="text/javascript" src="scripts/databaseChangedNotification_async.js"></script>-->
+
+
+    <!--FILTERED PUSH REPLICATION-->
+      <!--<script type="text/javascript" src="scripts/validate_testing_env_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/filteredPushReplication_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/filteredPushReplicationBlocked_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/filteredPushReplicationDeleteFilter_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/filteredPushReplicationModifyFilter_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/filteredPushReplicationMultipleFilters_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/filteredPushReplicationReplaceFilters_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/filteredPushReplicationDocsOutsideFilter_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/filteredPushReplicationReconcileRevisions_async.js"></script>-->
+
+    <!--PULL REPLICATION CHANNEL ASSOCIATION-->
+      <!--<script type="text/javascript" src="scripts/associate_channels_pull_replication_async.js"></script>-->
+
+    <!--Keep tests at the buttom. They shut down local Couchbase -->
+      <!--<script type="text/javascript" src="scripts/userInformationService_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/replicationConfigSettings_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/userSettingsDelete_async.js"></script>-->
+
+    <!-- RUN MANUALLY: SOME TESTS RESET CURRENT APP AND WIPE OUT ENV. FOR OTHERS TEST APP SHOULD EXIT FOR CALL-BACK TO BE CALLED -->
+        <script type="text/javascript" src="scripts/updateAppWindowService_async.js"></script>
+        <!--<script type="text/javascript" src="scripts/updateAppWindowServiceByDependencyName_async.js"></script>-->
+        <!--<script type="text/javascript" src="scripts/showSeriosErrorWindowService_async.js"></script>-->
+        <!--<script type="text/javascript" src="scripts/openUrlService_async.js"></script>-->
+        <!--<script type="text/javascript" src="scripts/touchIdService_async.js"></script>-->
+        <!--<script type="text/javascript" src="scripts/touchId_device_owner_async.js"></script>-->
+        <!--<script type="text/javascript" src="scripts/localNotifications_callBack_async_manual.js"></script>-->
+        <!--<script type="text/javascript" src="scripts/documentConflict_commandProcessor.js"></script>-->
+        <!--<script type="text/javascript" src="scripts/restartApp_async.js"></script>-->
+
+    <!--WORKS ON A DEVICE ONLY-->
+      <!--<script type="text/javascript" src="scripts/secureStorageService_prompt_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/barcodeScannerService.js"></script>-->
+
+    <!--ANDROID EXAMPLES TESTS not yet completed as of 10/11/2017 -->
+      <!--<script type="text/javascript" src="scripts/deviceOrientation_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/proximitySensor_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/deviceOrientation_Observer_async.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/proximitySensor_Observer_async.js"></script>-->
+
+    <!--SCRIPTS BELOW NOT TO BE RUN ALONG WITH OTHER TESTS. THEY ARE FOR SPECIAL PURPOUSE TO CREATE ENV-->
+      <!--<script type="text/javascript" src="scripts/env-setup/create_docs_with_attachments.js"></script>-->
+      <!--<script type="text/javascript" src="scripts/env-setup/create_docs_big_size_json_string.js"></script>-->
 
   </head>
   <script type="text/javascript">
 
-    var htmlReporter = new jasmine.HtmlReporter();
-    function runJasmineTests() {
-        var button = document.getElementById('clickButt');
-        button.style.display = 'none';
-        var jasmineEnv = jasmine.getEnv();
-        jasmineEnv.updateInterval = 1000;
-//        var htmlReporter = new jasmine.HtmlReporter();
-        jasmineEnv.addReporter(htmlReporter);
-        jasmineEnv.specFilter = function (spec) {
-            return htmlReporter.specFilter(spec);
-        };
-        function execJasmine() {
-            jasmineEnv.execute();
-        }
-        execJasmine();
+    var e2eReportId = null;
+    var reportURL = "https://"+REPORTER_URL+"/report/";
+    var htmlReport = null;
+    var env = jasmine.getEnv();
+    var testIdsAndNames = env.topSuite().children.map(function(each){ return {id: each.id, name: each.getFullName()}; });
+
+    function filterList() {
+      var filteredList = testIdsAndNames.filter(function(each){
+        return each.name.indexOf(window['selectionInput'].value) > -1;
+      });
+      window["selectedTests"].innerHTML =  filteredList.map(function(each){
+        return each.name;
+      });
+      window["testIds"].value =  "[" + filteredList.map(function(each){ return '"' + each.id + '"'; }) + "]";
     }
+
+    function runSpecificTests(ids) {
+      console.log("Run test with ids:", ids);
+      jasmine.executeOnDemand(eval(ids));
+    }
+
+    function runJasmineTests() {
+
+      var button = document.getElementById('clickButt');
+      button.style.display = 'none';
+
+      document.getElementById('webProtocol').disabled = true;
+      document.getElementById("exportButt").disabled = false;
+
+      jasmine.executeOnDemand();
+    }
+
+    function setProtocol(){
+
+      if(document.getElementById("webProtocol").checked){
+
+        WEB_PROTOCOL = "https://"
+
+      }else{
+
+        WEB_PROTOCOL = "http://"
+      }
+
+      load_js();
+
+    }
+
+    function load_js()
+    {
+      var head= document.getElementsByTagName('head')[0];
+      var script= document.createElement('script');
+      script.type= 'text/javascript';
+      script.src= 'spec/config.js';
+      head.appendChild(script);
+    }
+
+    function showReports(reportHtml){
+
+      console.log("Generated reports: "+ reportHtml);
+    }
+
+    function exportReport(){
+
+      var report = document.getElementsByTagName('html')[0].outerHTML;
+      htmlReport = report.replace(/\"/g, "");
+
+      var reportId = "e2eTestReport_"+generateUniqueId();
+      var text = "test" || document.getElementById("testDescription").value;
+      var newDate = new Date();
+      dateString = newDate.toLocaleDateString();
+      timeString = newDate.toLocaleTimeString();
+
+
+      var inputDic = {
+        "e2eReport": htmlReport,
+        "description": text,
+        "owner" : g_user,
+        "time" : dateString+" : " + timeString,
+        "type": "e2eReport"
+      };
+      e2eReportId = reportId;
+      console.warn("reportId: "+ reportId);
+      createDocumentPOST(inputDic,showReports,reportId);
+
+      // Modify color of text in a report (text is not visible in a report)
+      document.getElementById("reportLinkId").innerHTML = "Report: " + reportURL+e2eReportId;
+
+    }
+
+    window.onload = function() {
+
+      setProtocol();
+      document.getElementById("endPointId").innerHTML="End-point: "+ BACKEND_API_GATEWAY_URI;
+
+      //set platform
+      var platformDescription;
+      var platform = window.navigator.platform;
+      if((platform).indexOf("iPhone") > -1)
+        platformDescription="IOS";
+      else if((platform).indexOf("Linux") > -1)
+        platformDescription="Android";
+      else if((platform).indexOf("Mac") > -1)
+        platformDescription="macOS";
+      else if((platform).indexOf("Win") > -1)
+        platformDescription="Windows";
+      else
+        platformDescription="Unknown";
+
+      var elm = document.getElementById("platform");
+      elm.innerHTML="Platform: "+ platformDescription;
+      elm.style.fontWeight = "bold";
+      elm.style.fontStyle = "italic";
+
+      document.getElementsByClassName("jasmine-bar")[0].style.color = "blue";
+    }
+
+
   </script>
-  <body>
+  <body style="background-color:rgba(27, 255, 14, 0.69);">
+
+
+    <button id="exportButt" type="button" onclick="exportReport()" disabled>Export Report</button>
     <button id="clickButt" type="button" onclick="runJasmineTests()">Run REST API Tests</button>
+
+    <input type="text" id = "testDescription" name="description" placeholder="Enter test description" align="top"><br>
+
+    <p id="platform"><b>Platform goes here </b></p>
+
+    <input type="checkbox" id="webProtocol" onclick="setProtocol()">Use HTTPS<br>
+    <p id="reportLinkId"><a href="url"></a></p>
+    <p id="endPointId"><em>end-point</em></p>
+
+    <input id="selectionInput" type="text" onchange="filterList()">
+    <input id="testIds" type="hidden" value="">
+    <div id="selectedTests"></div>
+    <button id="selectTest" type="button" onclick="runSpecificTests(window['testIds'].value)">Run Specific Tests</button><br>
     <div id="stage" style="display:none;"></div>
+
+
   </body>
+<script>
+  window.selectionInput.oninput = filterList;
+  window.selectionInput.onpropertychange = window.selectionInput.oninput;
+</script>
 </html>

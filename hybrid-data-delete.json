@@ -1,0 +1,81 @@
+[
+    {
+      "key": "app-FunctionalTestSuite_1_0_0",
+      "id": "app-FunctionalTestSuite_1_0_0",
+      "value": {
+        "rev": "3-cb80f24cb51804b51f719d1da75e7c4f"
+      },
+      "doc": {
+        "_id": "app-FunctionalTestSuite_1_0_0",
+        "_rev": "3-cb80f24cb51804b51f719d1da75e7c4f",
+        "channels": [
+          "app-FunctionalTestSuite_1_0_0"
+        ],
+        "created_at": 1494354439452,
+        "dependencies": {
+          "e2e-app-test": {
+            "id": "webapp-e2e-app-test_0_0_1",
+            "version": "0.0.1"
+          }
+        },
+        "name": "FunctionalTestSuite",
+        "starter": "e2e-app-test",
+        "type": "app",
+        "updated_at": 1494356585419,
+        "version": "1.0.0",
+        "~read_only": true
+      }
+    },
+    {
+      "key": "sync-jacob_ge_com",
+      "id": "sync-jacob_ge_com",
+      "value": {
+        "rev": "1-caade6676d46b8459b4bf79df98307c5"
+      },
+      "doc": {
+        "_id": "sync-jacob_ge_com",
+        "_rev": "1-caade6676d46b8459b4bf79df98307c5",
+        "channels": [
+          "entity_jacob_ge_com"
+        ],
+        "data": [],
+        "data_subscribe_complete": [],
+        "data_unsubscribe": [],
+        "data_unsubscribe_complete": [],
+        "resources": [],
+        "resources_subscribe_complete": [],
+        "resources_unsubscribe": [],
+        "resources_unsubscribe_complete": [],
+        "type": "sync"
+      }
+    },
+    {
+      "key": "webapp-e2e-app-test_0_0_1",
+      "id": "webapp-e2e-app-test_0_0_1",
+      "value": {
+        "rev": "6-d7cb7c7b2f930709da9b17bdac919e56"
+      },
+      "doc": {
+        "_attachments": {
+          "app-e2e-app-test_0.0.1.zip": {
+            "content_type": "application/octet-stream",
+            "digest": "sha1-H2HkWYVGgFc8yPHr5ribFhqTG3E=",
+            "length": 708644,
+            "revpos": 6,
+            "stub": true
+          }
+        },
+        "_id": "webapp-e2e-app-test_0_0_1",
+        "_rev": "6-d7cb7c7b2f930709da9b17bdac919e56",
+        "channels": [
+          "webapp-e2e-app-test_0_0_1"
+        ],
+        "created_at": 1494354398565,
+        "main": "index.html",
+        "name": "e2e-app-test",
+        "type": "webapp",
+        "updated_at": 1494356582014,
+        "version": "0.0.1"
+      }
+    }
+  ]

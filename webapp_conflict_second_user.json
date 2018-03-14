@@ -1,0 +1,7 @@
+{
+  "name": "conflictapp",
+  "version": "2.0.0",
+  "main": "index.html",
+  "src-folder": "./dist/",
+  "output-folder": "./dist-zip/"
+}

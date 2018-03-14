@@ -1,0 +1,10 @@
+{
+    "name": "FunctionalTestSuite",
+    "version": "1.0.0",
+    "starter": "e2e-app-test",
+    "offline": "offline-login",
+    "dependencies": {
+        "e2e-app-test": "0.0.1",
+        "offline-login": "0.0.1"
+     }
+}

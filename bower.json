@@ -25,8 +25,7 @@
   ],
   "dependencies": {
     "Chart.js": "chartjs#~1.0.2",
-    "font-awesome": "~4.4.0",
-    "px-mobile-ui": "https://github.build.ge.com/predix-mobile/px-mobile-ui.git#master"
+    "font-awesome": "~4.4.0"
   },
   "devDependencies": {
     "web-component-tester": "~3.4.0"

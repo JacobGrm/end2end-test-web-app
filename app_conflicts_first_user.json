@@ -1,0 +1,8 @@
+{
+    "name": "appforconflicts",
+    "version": "2.0.0",
+    "starter": "conflictapp",
+    "dependencies": {
+        "conflictapp": "2.0.0"
+    }
+}
